@@ -15,18 +15,24 @@ ARCHIVE="wire_archive.json"
 UA="Mozilla/5.0 (compatible; money-map-wire/1.0)"
 
 # financial relevance (must hit one) — mirrors the map's Live filter
-FIN=['budget','fiscal','public spending','public funds','public money','procurement','tender',
- 'contract award','audit','auditor','comptroller','oversight','watchdog','corruption','bribery',
- 'embezzle','kickback','graft','fraud','money laundering','illicit','shell company',
- 'beneficial ownership','offshore','tax','tax haven','tax evasion','tax avoidance','revenue',
- 'treasury','central bank','regulator','financial regulator','basel','bailout','bank collapse',
- 'sovereign debt','default','deficit','inflation','monetary policy','interest rate','subsidy',
- 'sovereign wealth','sanctions','fatf','imf','world bank','oecd','asset declaration',
- 'company register','financial crime','fincen','misappropriat','state capture','kleptocra',
- 'public accounts','securities','stock exchange','pension fund','anti-corruption']
+FIN=['budget','appropriation','public spending','public funds','public money','fiscal deficit','fiscal policy',
+ 'budget deficit','procurement','public tender','contract award','no-bid contract','state audit','auditor general',
+ 'auditor-general','comptroller','court of accounts','public accounts','audit office','corruption','bribery','bribe',
+ 'embezzle','embezzlement','kickback','graft','misappropriat','anti-corruption','money laundering','illicit financial',
+ 'illicit flows','shell company','beneficial ownership','offshore account','offshore leak','tax haven','tax evasion',
+ 'tax avoidance','tax fraud','taxation','tax authority','revenue authority','central bank','monetary policy',
+ 'interest rate','quantitative easing','financial regulator','securities regulator','financial conduct','bank collapse',
+ 'bank failure','bank bailout','bailout','sovereign debt','debt default','sovereign default','imf loan','world bank',
+ ' fatf ','financial crime','fincen','sanctions evasion','asset declaration','company register','corporate registry',
+ 'pension fund','sovereign wealth','state capture','kleptocra','subsidy','stock exchange','securities fraud','ponzi',
+ 'finance ministry','treasury department','public procurement','dark money','inflation']
 STOP=['football','soccer','celebrity','recipe','horoscope','box office','fashion','obituary',
  'weather forecast','sports','webinar','register now','join us','rsvp','sign up','watch live',
  'apply now','fellowship','job opening','call for applications','book launch']
+EXCLUDE=['imperial','colonial','decolon','psychiatr','psycholog','collective memory','sites of displacement',
+ 'satellite image','occupation','genocide','anti-imperial','exhibition','museum',' poetry',' poem',' novel ','fiction',
+ 'cinema','painting','sculpture','martyr','liberation','apartheid','ceasefire','airstrike','insurgen','militia','jihad',
+ 'caliphate','diaspora','sectarian','war crimes','settler','occupied territor','military solution','military offensive']
 BIG=['reform','overhaul','sweeping','landmark','billion','million','budget','audit','investigation',
  'probe','inquiry','regulator','central bank','bailout','sanctions','laundering','corruption',
  'fraud','scandal','tax','procurement','watchdog','oversight','treasury','imf','world bank',
@@ -83,6 +89,7 @@ def main():
             hay=(title+" "+desc).lower()
             if not title or getattr(it,"link","") in seen: continue
             if any(w in hay for w in STOP): continue
+            if any(w in hay for w in EXCLUDE): continue
             if not any(w in hay for w in FIN): continue
             if sig(title+" "+desc) < 2: continue          # drop small/one-off
             try: dt=int(time.mktime(it.published_parsed))*1000
